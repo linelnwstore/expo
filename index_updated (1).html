@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BotMake AI — สร้างบอทไม่ต้องโค้ด</title>
+  <meta name="description" content="สร้างบอทอัจฉริยะได้ใน 5 นาที ไม่ต้องเขียนโค้ด รองรับเว็บ/ไลน์/เฟซบุ๊ก พร้อมสถิติและเทมเพลตสำเร็จรูป" />
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <meta property="og:title" content="BotMake AI — สร้างบอทไม่ต้องโค้ด">
+  <meta property="og:description" content="สร้างบอทอัจฉริยะได้ใน 5 นาที ไม่ต้องเขียนโค้ด รองรับเว็บ/ไลน์/เฟซบุ๊ก พร้อมสถิติและเทมเพลตสำเร็จรูป">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <style>
+    :root{
+      --bg:#0b1220; --bg-2:#111a2e; --brand:#3b82f6; --brand-2:#60a5fa;
+      --text:#e5e7eb; --muted:#b9c0d0; --card:rgba(255,255,255,.06); --line:rgba(255,255,255,.14);
+      --radius:16px; --shadow:0 10px 20px rgba(0,0,0,.25);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Mitr',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+    /* Nav */
+    .nav{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(11,18,32,.9),rgba(11,18,32,.6));backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand-logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#1f2a44,var(--brand));display:inline-block}
+    .nav-links{display:flex;gap:16px;flex-wrap:wrap}
+    .btn{display:inline-block;padding:10px 16px;border-radius:12px;font-weight:700;transition:.25s all}
+    .btn-primary{background:#fff;color:#111827}
+    .btn-outline{border:1.5px solid rgba(255,255,255,.8)}
+    .btn:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+
+    /* Hero */
+    .hero{padding:72px 0;background:linear-gradient(135deg,#16213e,var(--brand));}
+    .hero .lead{opacity:.95;max-width:780px;margin:0 auto 16px;line-height:1.6}
+    .hero h1{font-size:40px;line-height:1.2;margin:8px 0 12px}
+    .hero .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+    .hero .badges{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .badge{border:1px solid var(--line);background:var(--card);padding:8px 12px;border-radius:999px;font-size:14px}
+
+    /* Sections */
+    section{padding:64px 0;border-top:1px solid var(--line)}
+    .section-title{font-size:28px;margin:0 0 10px}
+    .section-sub{color:var(--muted);margin:0 0 24px}
+
+    /* Cards grid */
+    .grid{display:grid;gap:16px}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+    .card h3{margin:4px 0 8px;font-size:18px}
+    .card p{margin:0;color:var(--muted)}
+
+    /* Steps */
+    .step{display:flex;gap:14px;align-items:flex-start}
+    .step .num{min-width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:flex;align-items:center;justify-content:center;font-weight:700}
+
+    /* Pricing */
+    .pricing{display:grid;gap:16px}
+    .plan{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;position:relative}
+    .plan.featured{outline:2px solid var(--brand);box-shadow:0 0 0 6px rgba(59,130,246,.15)}
+    .price{font-size:34px;font-weight:800;margin:6px 0 10px}
+    .ul{margin:0;padding-left:20px;color:var(--muted)}
+    .plan .btn{margin-top:14px}
+
+    /* FAQ */
+    details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+    summary{cursor:pointer;font-weight:700}
+    details p{margin:8px 0 0;color:var(--muted)}
+
+    /* Contact */
+    .contact-wrap{display:grid;gap:16px;grid-template-columns:1.2fr .8fr}
+    .field{display:flex;flex-direction:column;gap:6px}
+    input,textarea{background:#0e162a;border:1px solid var(--line);color:var(--text);padding:12px;border-radius:12px;outline:none}
+    textarea{min-height:120px;resize:vertical}
+
+    /* Footer */
+    footer{padding:28px 0;color:var(--muted);border-top:1px solid var(--line);background:var(--bg-2)}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .grid-3{grid-template-columns:1fr 1fr}
+      .contact-wrap{grid-template-columns:1fr}
+    }
+    @media (max-width:480px){
+      .hero h1{font-size:26px}
+      .hero .lead{font-size:16px}
+      .grid-3,.grid-2{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span>BotMake AI</span>
+      </div>
+      <div class="nav-links">
+        <a href="#features">ฟีเจอร์</a>
+        <a href="#how">วิธีเริ่ม</a>
+        <a href="#pricing">ราคา</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" class="btn btn-outline">ติดต่อเรา</a>
+      <a href="services.html">บริการทั้งหมด</a></div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container" style="text-align:center">
+      <img src="assets/logo.png" alt="BotMake AI" style="width:88px;height:auto;margin:0 auto 12px;border-radius:18px;box-shadow:var(--shadow);" />
+      <div style="opacity:.85;letter-spacing:.5px">BotMake AI — สร้างบอทไม่ต้องโค้ด</div>
+      <h1>สร้างบอทอัจฉริยะได้ใน 5 นาที <span style="opacity:.9;font-weight:600">(ไม่ต้องเขียนโค้ด)</span></h1>
+      <p class="lead">พิมพ์คำตอบ ใส่คีย์เวิร์ด เลือกช่องทาง แล้วกดเผยแพร่ — พร้อมใช้งานทันที รองรับเว็บ/ไลน์/เฟซบุ๊ก</p>
+
+      <div class="cta">
+        <a href="#get-started" class="btn btn-primary">เริ่มใช้งานฟรี</a>
+        <a href="#demos" class="btn btn-outline">ดูตัวอย่างบอท</a>
+      </div>
+
+      <div class="badges">
+        <span class="badge">⚡ ตั้งค่าเร็ว</span>
+        <span class="badge">🧠 ตอบฉลาด</span>
+        <span class="badge">🧩 โค้ดฝัง 1 บรรทัด</span>
+        <span class="badge">📊 สถิติเรียลไทม์</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <h2 class="section-title">ฟีเจอร์เด่น</h2>
+      <p class="section-sub">ครบตั้งแต่สร้าง ปรับแต่ง ไปจนถึงวัดผลการใช้งาน</p>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>ตัวแก้ไข Q&A</h3>
+          <p>เพิ่ม/แก้ไขคำถาม-คำตอบแบบฟอร์ม กรอกแล้วจบ ใช้งานจริงได้ทันที</p>
+        </div>
+        <div class="card">
+          <h3>คีย์เวิร์ด & บุคลิก</h3>
+          <p>กำหนดคำหลักและโทนภาษา ให้บอทตอบตรงแบรนด์และแม่นยำ</p>
+        </div>
+        <div class="card">
+          <h3>Fallback อัจฉริยะ</h3>
+          <p>เมื่อตอบไม่ได้ ให้ข้อความสำรอง/ส่งต่อเจ้าหน้าที่อัตโนมัติ</p>
+        </div>
+        <div class="card">
+          <h3>ฝังบนเว็บไซต์ง่าย</h3>
+          <p>คัดลอกโค้ดฝังเพียง 1 บรรทัด ก็แสดงวิจเจ็ตแชทบนหน้าเว็บได้</p>
+        </div>
+        <div class="card">
+          <h3>เชื่อมหลายช่องทาง</h3>
+          <p>เว็บ / LINE / Facebook พร้อมคู่มือทีละขั้นตอน</p>
+        </div>
+        <div class="card">
+          <h3>สถิติ & อินไซต์</h3>
+          <p>รายงานคำถามยอดฮิต อัตราตอบสำเร็จ และช่วงเวลาที่ลูกค้าแอคทีฟ</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="container">
+      <h2 class="section-title">เริ่มใช้งาน 3 ขั้นตอน</h2>
+      <p class="section-sub">ไม่มีพื้นฐานโค้ดก็ทำได้</p>
+
+      <div class="grid grid-3">
+        <div class="card step">
+          <div class="num">1</div>
+          <div>
+            <h3>เลือกเทมเพลต</h3>
+            <p>เลือกเทมเพลตที่เหมาะกับงาน เช่น FAQ, หน้าร้าน, ซัพพอร์ต</p>
+          </div>
+        </div>
+        <div class="card step">
+          <div class="num">2</div>
+          <div>
+            <h3>ใส่ Q&A และคีย์เวิร์ด</h3>
+            <p>กำหนดคำถาม-คำตอบและคำหลัก เพื่อให้ตอบได้แม่นยำ</p>
+          </div>
+        </div>
+        <div class="card step">
+          <div class="num">3</div>
+          <div>
+            <h3>กดเผยแพร่</h3>
+            <p>คัดลอกโค้ดฝัง 1 บรรทัด นำไปวางในเว็บไซต์/เพจ แล้วใช้งานได้เลย</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="get-started" style="text-align:center;margin-top:22px">
+        <a href="#pricing" class="btn btn-primary">ดูแพ็กเกจและเริ่มต้น</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMOS -->
+  <section id="demos">
+    <div class="container">
+      <h2 class="section-title">ตัวอย่างการใช้งาน</h2>
+      <p class="section-sub">เลือกแนวที่เข้ากับธุรกิจของคุณ</p>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>บอทตอบคำถามร้านค้า</h3>
+          <p>เวลาทำการ, ค่าจัดส่ง, โปรโมชัน — ตอบอัตโนมัติ 24/7</p>
+        </div>
+        <div class="card">
+          <h3>บอทซัพพอร์ต</h3>
+          <p>ช่วยคัดกรองออเดอร์/ปัญหา ก่อนส่งต่อทีมงาน</p>
+        </div>
+        <div class="card">
+          <h3>บอทเก็บลีด</h3>
+          <p>ถามชื่อติดต่อและความต้องการ แล้วส่งเข้าระบบ CRM</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="container">
+      <h2 class="section-title">ราคาแบบเข้าใจง่าย</h2>
+      <p class="section-sub">เริ่มฟรี อัปเกรดได้เมื่อโต</p>
+
+      <div class="pricing grid grid-3">
+        <div class="plan">
+          <h3>Free</h3>
+          <div class="price">฿0</div>
+          <ul class="ul">
+            <li>บอท 1 ตัว</li>
+            <li>Q&A จำนวนจำกัด</li>
+            <li>โค้ดฝังเว็บไซต์</li>
+          </ul>
+          <a href="#contact" class="btn btn-outline">เริ่มฟรี</a>
+        </div>
+
+        <div class="plan featured">
+          <h3>Pro</h3>
+          <div class="price">฿590/เดือน</div>
+          <ul class="ul">
+            <li>หลายบอท / โปรเจกต์</li>
+            <li>สถิติละเอียด & ส่งออก</li>
+            <li>ร่วมแก้ไขเป็นทีม</li>
+          </ul>
+          <a href="#contact" class="btn btn-primary">เริ่มใช้ Pro</a>
+        </div>
+
+        <div class="plan">
+          <h3>Business</h3>
+          <div class="price">฿1,990/เดือน</div>
+          <ul class="ul">
+            <li>API & Integrations</li>
+            <li>SLA ซัพพอร์ต</li>
+            <li>ที่ปรึกษาเริ่มต้น</li>
+          </ul>
+          <a href="#contact" class="btn btn-outline">คุยกับทีมขาย</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2 class="section-title">คำถามที่พบบ่อย</h2>
+      <p class="section-sub">สั้น ตรง ใช้งานได้จริง</p>
+
+      <div class="grid grid-2">
+        <details class="card" open>
+          <summary>ต้องเขียนโค้ดไหม?</summary>
+          <p>ไม่ต้อง ทุกอย่างเป็นฟอร์มกรอกและเทมเพลตสำเร็จรูป</p>
+        </details>
+        <details class="card">
+          <summary>ฝังบนเว็บไซต์ยังไง?</summary>
+          <p>คัดลอกโค้ดฝัง 1 บรรทัดไปวางก่อนแท็ก </p>
+        </details>
+        <details class="card">
+          <summary>เชื่อมกับ LINE/Facebook ได้ไหม?</summary>
+          <p>ได้ มีคู่มือเชื่อมต่อทีละขั้นตอน</p>
+        </details>
+        <details class="card">
+          <summary>อัปเกรดแพ็กเกจภายหลังได้หรือไม่?</summary>
+          <p>ได้ทุกเมื่อ และข้อมูลเดิมยังอยู่ครบ</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">ติดต่อเรา</h2>
+      <p class="section-sub">มีเคสเฉพาะ? ทิ้งข้อความไว้ เดี๋ยวเราตอบกลับ</p>
+
+      <div class="contact-wrap">
+        <form class="card" onsubmit="event.preventDefault(); alert('ส่งข้อความเรียบร้อย!');">
+          <div class="field">
+            <label>ชื่อของคุณ</label>
+            <input type="text" placeholder="ชื่อ-นามสกุล" required />
+          </div>
+          <div class="field">
+            <label>อีเมล</label>
+            <input type="email" placeholder="you@example.com" required />
+          </div>
+          <div class="field">
+            <label>ข้อความ</label>
+            <textarea placeholder="เล่าโจทย์สั้น ๆ ให้เราฟัง..."></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">ส่งข้อความ</button>
+        </form>
+
+        <div class="card">
+          <h3>ช่องทางอื่น</h3>
+          <p>LINE: @linelnw</p>
+          <p>อีเมล: support@botmake.example</p>
+          <p>เวลาให้บริการ: 10:00–20:00 น.</p>
+        </div>
+      </div>
+    </div>
+  
+      <div class="contact-row">Facebook: เอกน้อย ร้อยเปอร์เซ็นต์</div>
+</section>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+      <div>© <span id="y"></span> BotMake AI. สงวนลิขสิทธิ์</div>
+      <div style="display:flex;gap:12px;">
+        <a href="#privacy">นโยบายความเป็นส่วนตัว</a>
+        <a href="#terms">ข้อกำหนดการใช้บริการ</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+<!-- CATALOG (moved to services.html) -->
+<section id="catalog">
+  <div class="container" style="text-align:center">
+    <h2 class="section-title">รายการขายทั้งหมด</h2>
+    <p class="section-sub">ย้ายไปหน้าใหม่เพื่อให้เป็นระเบียบและลิงก์ชัดเจน</p>
+    <a href="services.html" class="btn btn-primary">ดูรายการสินค้าทั้งหมด</a>
+  </div>
+</section>
+</body>
+</html>
